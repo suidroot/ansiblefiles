@@ -1,1 +1,9 @@
 update-pies.retry
+[37m#!/bin/sh[39;49;00m
+
+[36mexport[39;49;00m [31mANSIBLE_HOSTS[39;49;00m=./ansible_hosts
+ansible-playbook update-pies.yml -u pi -K
+[servers]
+rp2.local
+raspberrypi.local
+electronics.local
