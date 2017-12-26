@@ -1,0 +1,27 @@
+---
+- hosts: routers
+  gather_facts: yes
+  connection: local
+  user: cisco
+  vars:
+    ipaddress: "192.168.56.1"
+
+  tasks:
+  - name: run show version and check to see if output contains IOS
+    ios_command:
+      commands: show version
+      wait_for: result[0] contains IOS
+
+  - name: Ping IP address
+    ios_command:
+      timeout: 20
+      commands: ping {{ ipaddress }}
+      # wait_for: result[0] contains .....
+    register: output
+  - debug: var=output
+
+  - name: Check the ARP table
+    ios_command:
+      commands: sh arp {{ ipaddress }}
+      wait_for: result[0] contains {{ ipaddress }}
+      # wait_for: result[0] contains {{ ipaddress }}
